@@ -61,10 +61,13 @@ export const atualizarUsuario = async (req: Request, res: Response) =>{
       res.status(404).json({ mensagem: "Usuário não encontrado" });
       return;
     }
-
-    const dados: IUsuarioUpdate = req.body;
+    let dados: IUsuarioUpdate = req.body;
+    if (usuario.senha) {
+      const senhaHash = await bcrypt.hash(usuario.senha, 10);
+      dados={...dados,senha:senhaHash}
+    }
     await usuario.update(dados);
-
+    
     const response: IUsuarioResponse = {
       id: usuario.id,
       login: usuario.login,
@@ -73,7 +76,7 @@ export const atualizarUsuario = async (req: Request, res: Response) =>{
       status: usuario.status,
       idVendedor: usuario.idVendedor || undefined,
     };
-
+    
     res.status(200).json(response);
   } catch (error) {
     console.error(error);
