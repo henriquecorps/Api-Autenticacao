@@ -62,8 +62,8 @@ export const atualizarUsuario = async (req: Request, res: Response) =>{
       return;
     }
     let dados: IUsuarioUpdate = req.body;
-    if (usuario.senha) {
-      const senhaHash = await bcrypt.hash(usuario.senha, 10);
+    if (dados.senha) {
+      const senhaHash = await bcrypt.hash(dados.senha, 10);
       dados={...dados,senha:senhaHash}
     }
     await usuario.update(dados);

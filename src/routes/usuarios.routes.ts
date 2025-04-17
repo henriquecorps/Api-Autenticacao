@@ -8,6 +8,5 @@ export const usuariosRoute = () => {
   router.post("/",verificaToken, insereUsuario);
   router.put("/:id/:status",verificaToken, alterarStatusUsuario);
   router.put("/:id",verificaToken, atualizarUsuario);
-  
   return router;
 };
